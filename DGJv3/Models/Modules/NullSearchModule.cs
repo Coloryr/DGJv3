@@ -15,6 +15,11 @@ namespace DGJv3
             return DownloadStatus.Failed;
         }
 
+        protected override SongInfo GetById(string id)
+        {
+            return null;
+        }
+
         protected override string GetDownloadUrl(SongItem songInfo)
         {
             return null;

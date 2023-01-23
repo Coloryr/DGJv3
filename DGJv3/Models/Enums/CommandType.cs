@@ -8,6 +8,8 @@ namespace DGJv3
         Null,
         [Description("点歌")]
         Add,
+        [Description("点歌ID")]
+        AddID,
         [Description("取消点歌")]
         Cancel,
         [Description("重新点上一首歌曲")]

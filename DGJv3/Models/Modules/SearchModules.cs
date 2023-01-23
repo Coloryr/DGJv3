@@ -74,6 +74,27 @@ namespace DGJv3
             return null;
         }
 
+        public static bool CheckNumb(string input)
+        {
+            if (input == null)
+                return true;
+            return Regex1.IsMatch(input);
+        }
+
+        private static Regex Regex1 = new Regex("[^0-9]+");
+
+        public SongInfo GetSongInfo1(string id)
+        {
+            if (!string.IsNullOrWhiteSpace(id) && !CheckNumb(id))
+            {
+                foreach (SearchModule searchModule in UsingModules)
+                {
+                    SongInfo songInfo = searchModule.SafeGetById(id);
+                    if (songInfo != null) return songInfo;
+                }
+            }
+            return null;
+        }
 
         public List<SongInfo> GetSongInfoList(string keyword)
         {

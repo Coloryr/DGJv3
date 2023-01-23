@@ -249,6 +249,11 @@ namespace DGJv3.InternalModule
             }
         }
 
+        protected override SongInfo GetById(string id)
+        {
+            throw new NotImplementedException();
+        }
+
         private static readonly Dictionary<string, DNSResult> DNSList = new Dictionary<string, DNSResult>();
         private static readonly Regex regex = new Regex(@"((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\,(\d+)", RegexOptions.Compiled);
 

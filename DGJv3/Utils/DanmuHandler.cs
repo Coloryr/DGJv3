@@ -119,6 +119,11 @@ namespace DGJv3
                         DanmuAddSong(danmakuModel, rest);
                     }
                     return;
+                case CommandType.AddID:
+                    {
+                        DanmuAddSong1(danmakuModel, rest);
+                    }
+                    return;
                 case CommandType.Cancel:
                     {
                         dispatcher.Invoke(() =>
@@ -233,6 +238,10 @@ namespace DGJv3
                 case "点歌":
                 case "點歌":
                     return CommandType.Add;
+                case "点歌ID":
+                case "点歌id":
+                case "点歌Id":
+                    return CommandType.AddID;
                 case "取消點歌":
                 case "取消点歌":
                     return CommandType.Cancel;
@@ -278,6 +287,34 @@ namespace DGJv3
             if (dispatcher.Invoke(callback: () => CanAddSong(username: danmakuModel.UserName)))
             {
                 SongInfo songInfo = SearchModules.GetSongInfo(keyword);
+
+                if (songInfo == null)
+                    return;
+
+                if (songInfo.IsInBlacklist(Blacklist))
+                {
+                    Log($"歌曲在黑名单中：{songInfo.Name}");
+                    return;
+                }
+                Log($"点歌成功:{songInfo.Name}");
+                history.Write(songInfo, danmakuModel.UserName);
+                dispatcher.Invoke(callback: () =>
+                {
+                    if (CanAddSong(danmakuModel.UserName) &&
+                        !Songs.Any(x =>
+                            x.SongId == songInfo.Id &&
+                            x.Module.UniqueId == songInfo.Module.UniqueId)
+                    )
+                        AddSong(songInfo, danmakuModel.UserName);
+                });
+            }
+        }
+
+        public void DanmuAddSong1(DanmakuModel danmakuModel, string keyword)
+        {
+            if (dispatcher.Invoke(callback: () => CanAddSong(username: danmakuModel.UserName)))
+            {
+                SongInfo songInfo = SearchModules.GetSongInfo1(keyword);
 
                 if (songInfo == null)
                     return;

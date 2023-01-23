@@ -146,6 +146,21 @@ namespace DGJv3
             }
         }
 
+        internal SongInfo SafeGetById(string id)
+        {
+            try
+            {
+                return GetById(id);
+            }
+            catch (Exception ex)
+            {
+                WriteError(ex, "id: " + id);
+                return null;
+            }
+        }
+
+        protected abstract SongInfo GetById(string id);
+
         protected abstract string GetDownloadUrl(SongItem songInfo);
 
         internal string SafeGetDownloadUrl(SongItem songInfo)
